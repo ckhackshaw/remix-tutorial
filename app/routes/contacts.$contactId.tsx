@@ -50,7 +50,7 @@ export default function Contact() {
         {contact.notes ? <p>{contact.notes}</p> : null}
         <div>
           <Form action="edit">
-            <button type="button">Edit</button>
+            <button type="submit">Edit</button>
           </Form>
           <Form
             action="destroy"
