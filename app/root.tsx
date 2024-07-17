@@ -6,7 +6,7 @@ import {
   Scripts,
   ScrollRestoration,
   Outlet,
-  Link,
+  NavLink,
   useLoaderData,
 } from "@remix-run/react";
 
@@ -65,7 +65,12 @@ export default function App() {
               <ul>
                 {contacts.map(({ id, first, last, favorite }) => (
                   <li key={id}>
-                    <Link to={`/contacts/${id}`}>
+                    <NavLink
+                      className={({ isActive, isPending }) => {
+                        return isActive ? "active" : isPending ? "pending" : "";
+                      }}
+                      to={`/contacts/${id}`}
+                    >
                       {first || last ? (
                         <>
                           {first} {last}
@@ -73,7 +78,7 @@ export default function App() {
                       ) : (
                         <i>No Name</i>
                       )}
-                    </Link>
+                    </NavLink>
                     {favorite ? <span>★</span> : null}
                   </li>
                 ))}
