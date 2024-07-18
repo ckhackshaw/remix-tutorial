@@ -1,11 +1,12 @@
 import { json } from "@remix-run/node";
-import { Form, useLoaderData } from "@remix-run/react";
+import type { ActionFunctionArgs } from "@remix-run/node";
+import { Form, useLoaderData, useFetcher } from "@remix-run/react";
 import type { FunctionComponent } from "react";
 import type { LoaderFunctionArgs } from "@remix-run/node";
 
 import invariant from "tiny-invariant";
 
-import { ContactRecord, getContact } from "../data";
+import { ContactRecord, getContact, updateContact } from "../data";
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
   invariant(params.contactId, "Missing contactId param");
@@ -72,12 +73,22 @@ export default function Contact() {
   );
 }
 
+export const action = async ({ params, request }: ActionFunctionArgs) => {
+  invariant(params.contactId, "Missing contact id");
+  const formData = await request.formData();
+  return updateContact(params.contactId, {
+    favorite: formData.get("favorite") === "true",
+  });
+};
+
 const Favorite: FunctionComponent<{
   contact: Pick<ContactRecord, "favorite">;
 }> = ({ contact }) => {
+  const fetcher = useFetcher();
+
   const favorite = contact.favorite;
   return (
-    <Form method="post">
+    <fetcher.Form method="post">
       <button
         name="favorites"
         value={favorite ? "false" : "true"}
@@ -85,6 +96,6 @@ const Favorite: FunctionComponent<{
       >
         {favorite ? "★" : "☆"}
       </button>
-    </Form>
+    </fetcher.Form>
   );
 };
