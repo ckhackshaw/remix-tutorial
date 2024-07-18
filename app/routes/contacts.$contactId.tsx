@@ -1,9 +1,7 @@
 import { json } from "@remix-run/node";
-import type { ActionFunctionArgs } from "@remix-run/node";
+import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import { Form, useLoaderData, useFetcher } from "@remix-run/react";
 import type { FunctionComponent } from "react";
-import type { LoaderFunctionArgs } from "@remix-run/node";
-
 import invariant from "tiny-invariant";
 
 import { ContactRecord, getContact, updateContact } from "../data";
@@ -90,7 +88,7 @@ const Favorite: FunctionComponent<{
   return (
     <fetcher.Form method="post">
       <button
-        name="favorites"
+        name="favorite"
         value={favorite ? "false" : "true"}
         aria-label={favorite ? "Remove from favorites" : "Add to favorites"}
       >
