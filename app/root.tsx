@@ -8,6 +8,7 @@ import {
   Outlet,
   NavLink,
   useLoaderData,
+  useNavigation,
 } from "@remix-run/react";
 
 import { createEmptyContact, getContacts } from "./data";
@@ -33,6 +34,7 @@ export const action = async () => {
 
 export default function App() {
   const { contacts } = useLoaderData<typeof loader>();
+  const { state } = useNavigation();
 
   return (
     <html lang="en">
@@ -88,7 +90,7 @@ export default function App() {
             )}
           </nav>
         </div>
-        <div id="detail">
+        <div id="detail" className={state === "loading" ? "loading" : ""}>
           <Outlet />
         </div>
 
